@@ -1,12 +1,11 @@
 
-import styled from 'styled-components'
-import { fadeInAndOut } from '../../styles/animation'
+import styled, { css } from 'styled-components'
 
 export const List = styled.ul`
   display: flex;
   overflow: scroll;
   width: 100%;
-  &.fixed {
+  ${({ fixed }) => fixed && css`
     background: #fff;
     border-radius: 60px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -22,7 +21,7 @@ export const List = styled.ul`
     opacity: ${({ visible }) => visible ? 1 : 0};
     visibility: ${({ visible }) => visible ? 'visible' : 'hidden'};
     transition: visibility .2s linear, opacity .2s linear;
-  }
+  `}
 `
 
 export const Item = styled.li`

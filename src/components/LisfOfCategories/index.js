@@ -2,17 +2,26 @@ import React, { useState, useEffect } from 'react'
 import { Category } from '../Category'
 import { List, Item } from './styles'
 
-export const ListOfCategories = () => {
+const useCategoriesData = () => {
   const [categories, setCategories] = useState([])
-  const [showFixed, setShowFixed] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     fetch('https://petgram-server-ana.vercel.app/categories')
       .then(res => res.json())
       .then(response => {
         setCategories(response)
       })
+    setLoading(true)
   }, [])
+
+  return { categories, loading }
+}
+
+export const ListOfCategories = () => {
+  const { categories, loading } = useCategoriesData()
+  const [showFixed, setShowFixed] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -21,18 +30,21 @@ export const ListOfCategories = () => {
     }
     document.addEventListener('scroll', onScroll)
 
+    // para limpiar el efecto, el evento escuchador
     return () => document.removeEventListener('scroll', onScroll)
   }, [showFixed])
 
   const renderList = ({ fixed } = {}) => (
-    <List className={fixed ? 'fixed' : ''} visible={showFixed}>
+    <List fixed={fixed} visible={showFixed}>
       {
-        categories.map(category => {
-          const { id } = category
-          return (
-            <Item key={id}><Category {...category} /></Item>
-          )
-        })
+        loading
+          ? <Item key={loading}><Category /></Item> // TODO: add loading spinner svg
+          : categories.map(category => {
+            const { id } = category
+            return (
+              <Item key={id}><Category {...category} /></Item>
+            )
+          })
       }
     </List>
   )
