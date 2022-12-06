@@ -13,7 +13,7 @@ const useCategoriesData = () => {
       .then(response => {
         setCategories(response)
       })
-    setLoading(true)
+    setLoading(false)
   }, [])
 
   return { categories, loading }
