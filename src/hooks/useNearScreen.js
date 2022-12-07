@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
-export const useLazyLoad = (ref) => {
+export const useNearScreen = () => {
+  const ref = useRef(null)
   const [show, setShow] = useState(false)
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export const useLazyLoad = (ref) => {
     })
   }, [ref])
 
-  return { show }
+  return { show, ref }
 }
 
 // para que esto funcione, el item (el article, en este caso) tiene que tener una altura mínima,
