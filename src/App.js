@@ -1,9 +1,20 @@
 import React from 'react'
 import { GlobalStyle } from './styles/GlobalStyles'
-import { ListOfCategories } from './components/LisfOfCategories'
-import { ListOfPhotoCards } from './containers/ListOfPhotoCards'
 import { Logo } from './components/Logo'
 import { PhotoCardWithQuery } from './containers/PhotoCardWithQuery'
+import { Home } from './pages/Home'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+const router = createBrowserRouter(([
+  {
+    path: '/',
+    element: <Home />
+  },
+  {
+    path: '/pet/:id',
+    element: <Home />
+  }
+]))
 
 export const App = () => {
   const currentQueryStringNavigation = window.location.search
@@ -17,12 +28,7 @@ export const App = () => {
       {
         detailIdNavigation
           ? <PhotoCardWithQuery id={detailIdNavigation} />
-          : (
-            <>
-              <ListOfCategories />
-              <ListOfPhotoCards categoryId={1} />
-            </>
-            )
+          : <RouterProvider router={router} />
       }
 
     </div>
