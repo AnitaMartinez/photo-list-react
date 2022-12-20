@@ -3,18 +3,7 @@ import { GlobalStyle } from './styles/GlobalStyles'
 import { Logo } from './components/Logo'
 import { PhotoCardWithQuery } from './containers/PhotoCardWithQuery'
 import { Home } from './pages/Home'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-const router = createBrowserRouter(([
-  {
-    path: '/',
-    element: <Home />
-  },
-  {
-    path: '/pet/:id',
-    element: <Home />
-  }
-]))
+import { Route, BrowserRouter, Routes } from 'react-router-dom'
 
 export const App = () => {
   const currentQueryStringNavigation = window.location.search
@@ -22,15 +11,19 @@ export const App = () => {
   const detailIdNavigation = urlParams.get('detail')
 
   return (
-    <div>
+    <BrowserRouter>
       <GlobalStyle />
       <Logo />
       {
         detailIdNavigation
           ? <PhotoCardWithQuery id={detailIdNavigation} />
-          : <RouterProvider router={router} />
+          : (
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/pet/:id' element={<Home />} />
+            </Routes>
+            )
       }
-
-    </div>
+    </BrowserRouter>
   )
 }
